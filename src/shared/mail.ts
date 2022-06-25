@@ -2,7 +2,6 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
 
 export const sendEmail = async (email: string, token: string) => {
-  console.log('A new beginning');
   const provider = {
     server: {
       host: process.env.SMTP_HOST,
@@ -15,8 +14,6 @@ export const sendEmail = async (email: string, token: string) => {
     },
     from: process.env.SMTP_FROM,
   };
-
-  console.log(provider);
   const transport = createTransport(provider.server);
   await transport.sendMail(
     {
