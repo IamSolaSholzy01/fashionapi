@@ -14,8 +14,8 @@ export class User {
   @Prop({ required: true, minlength: 6 })
   password: string;
 
-  @Prop({ enum: ['Admin', 'Basic', 'Seller'], default: 'Basic' })
-  role: string;
+  @Prop({ default: ['user'] })
+  roles: string[];
 
   @Prop({ default: false })
   verified: boolean;

@@ -1010,7 +1010,6 @@ export const sendEmail = async (email: string, token: string) => {
     },
     (err, info) => {
       if (err) {
-        console.error(err);
         throw new HttpException(err.message, HttpStatus.FAILED_DEPENDENCY);
         return false;
       } else {

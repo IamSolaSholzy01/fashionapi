@@ -9,7 +9,6 @@ export class AppController {
   constructor(private authService: AuthService) {}
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
