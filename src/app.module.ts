@@ -6,6 +6,7 @@ import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { ColourModule } from './colour/colour.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
+    ColourModule,
   ],
   controllers: [AppController],
   providers: [AppService],
