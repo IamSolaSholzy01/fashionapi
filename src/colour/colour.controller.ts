@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { Public } from 'src/decorators/public.decorator';
 import { ColourService } from './colour.service';
 import { CreateColourDto } from './dto/create-colour.dto';
 import { UpdateColourDto } from './dto/update-colour.dto';
@@ -12,6 +21,7 @@ export class ColourController {
     return this.colourService.create(createColourDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.colourService.findAll();
