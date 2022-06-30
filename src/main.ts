@@ -28,6 +28,9 @@ async function bootstrap() {
   const customOptions: SwaggerCustomOptions = {
     swaggerOptions: {
       persistAuthorization: true,
+      tagsSorter: 'alpha',
+      operationsSorter: 'alpha',
+      docExpansion: 'none',
     },
     customSiteTitle: 'Fashion App API Docs',
   };

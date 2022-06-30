@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateColourDto } from './dto/create-colour.dto';
 import { UpdateColourDto } from './dto/update-colour.dto';
+import { Colour, ColourDocument } from './schemas/colour.schema';
 
 @Injectable()
 export class ColourService {
-  create(createColourDto: CreateColourDto) {
-    return 'This action adds a new colour';
+  constructor(
+    @InjectModel(Colour.name) private colourModel: Model<ColourDocument>,
+  ) {}
+
+  async create(createColourDto: CreateColourDto) {
+    return await this.colourModel.create(createColourDto);
   }
 
-  findAll() {
-    return `This action returns all colour`;
+  async findAll() {
+    return await this.colourModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} colour`;
+  async findOne(id: mongoose.Types.ObjectId) {
+    return await this.colourModel.findById(id);
   }
 
-  update(id: number, updateColourDto: UpdateColourDto) {
-    return `This action updates a #${id} colour`;
+  async update(id: mongoose.Types.ObjectId, updateColourDto: UpdateColourDto) {
+    return await this.colourModel.findByIdAndUpdate(id, updateColourDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} colour`;
+  async remove(id: mongoose.Types.ObjectId) {
+    return await this.colourModel.findByIdAndDelete(id);
   }
 }
