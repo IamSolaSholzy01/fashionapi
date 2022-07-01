@@ -53,6 +53,20 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Roles(Role.Admin)
+  @Get('/count/admin')
+  async countAdmins(): Promise<number> {
+    return await this.usersService.countAdmins();
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @Get('/count/seller')
+  async countSellers(): Promise<number> {
+    return await this.usersService.countSellers();
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     if (!mongoose.isValidObjectId(id))

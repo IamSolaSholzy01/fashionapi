@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { hash } from 'argon2';
 import mongoose, { Model } from 'mongoose';
+import { Role } from 'src/enums/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
@@ -42,6 +43,18 @@ export class UsersService {
 
   async update(id: mongoose.Types.ObjectId, updateUserDto: UpdateUserDto) {
     return await this.userModel.findByIdAndUpdate(id, updateUserDto);
+  }
+
+  async countAdmins(): Promise<number> {
+    return await this.userModel.countDocuments({
+      roles: Role.Admin,
+    });
+  }
+
+  async countSellers(): Promise<number> {
+    return await this.userModel.countDocuments({
+      roles: Role.Seller,
+    });
   }
 
   async remove(id: mongoose.Types.ObjectId) {
