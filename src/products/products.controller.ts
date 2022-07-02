@@ -25,7 +25,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @ApiBearerAuth()
-  @Roles(Role.Admin)
+  @Roles(Role.Seller)
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
     return await this.productsService.create(createProductDto);
@@ -58,7 +58,7 @@ export class ProductsController {
   }
 
   @ApiBearerAuth()
-  @Roles(Role.Admin)
+  @Roles(Role.Seller)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     if (!mongoose.isValidObjectId(id))
@@ -71,6 +71,7 @@ export class ProductsController {
 
   // @Roles(Role.Seller)
   @ApiBearerAuth()
+  @Roles(Role.Seller, Role.Admin)
   @Delete(':id')
   remove(@Request() req: any, @Param('id') id: string) {
     if (!mongoose.isValidObjectId(id))
