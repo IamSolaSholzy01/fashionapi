@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ColourModule } from './colour/colour.module';
+import { OrderModule } from './order/order.module';
+import { ComplaintModule } from './complaint/complaint.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { ColourModule } from './colour/colour.module';
       useUnifiedTopology: true,
     }),
     ColourModule,
+    OrderModule,
+    ComplaintModule,
   ],
   controllers: [AppController],
   providers: [AppService],
