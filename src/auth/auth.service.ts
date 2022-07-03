@@ -8,6 +8,7 @@ import { RegisterDto } from './dto/registerdto';
 import { cleanEmail, validateEmail } from 'src/shared/email';
 import { sendEmail } from '../shared/mail';
 import { ResendDto, TokenDto } from './dto/tokendto';
+import { Role } from 'src/enums/role.enum';
 
 const gen = () => {
   var p = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -98,6 +99,7 @@ export class AuthService {
 
       await this.usersService.update(user.id, {
         verified: true,
+        active: user.roles.includes(Role.Seller) ? false : true,
       });
       return 'Verified successfully';
     } catch (error) {

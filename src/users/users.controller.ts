@@ -79,6 +79,17 @@ export class UsersController {
 
   @ApiBearerAuth()
   @Roles(Role.Admin)
+  @Get('/promote/admin/:id')
+  promoteAdmin(@Param('id') id: string) {
+    if (!mongoose.isValidObjectId(id))
+      throw new HttpException('Invalid Object Id', HttpStatus.FORBIDDEN);
+    return this.usersService.promoteToAdmin(
+      id as unknown as mongoose.Types.ObjectId,
+    );
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     if (!mongoose.isValidObjectId(id))

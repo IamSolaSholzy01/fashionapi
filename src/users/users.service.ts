@@ -3,13 +3,29 @@ import { InjectModel } from '@nestjs/mongoose';
 import { hash } from 'argon2';
 import mongoose, { Model } from 'mongoose';
 import { Role } from 'src/enums/role.enum';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateSellerDto, CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+  async createSeller(createSellerDto: CreateUserDto): Promise<User> {
+    const { email, password, fullName } = createSellerDto;
+    const roles = [Role.Seller];
+    try {
+      const hashed = await hash(password);
+      return await this.userModel.create({
+        email,
+        password: hashed,
+        fullName,
+        roles,
+      });
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, fullName } = createUserDto;
@@ -48,6 +64,12 @@ export class UsersService {
   async countAdmins(): Promise<number> {
     return await this.userModel.countDocuments({
       roles: Role.Admin,
+    });
+  }
+
+  async promoteToAdmin(id: mongoose.Types.ObjectId) {
+    return await this.userModel.findByIdAndUpdate(id, {
+      $push: { roles: Role.Admin },
     });
   }
 

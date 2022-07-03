@@ -10,3 +10,12 @@ export class CreateUserDto {
   @ApiProperty()
   fullName: string;
 }
+
+export class CreateSellerDto extends CreateUserDto {
+  constructor() {
+    super();
+  }
+
+  @ApiProperty()
+  roles?: string[];
+}

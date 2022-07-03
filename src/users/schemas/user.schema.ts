@@ -20,6 +20,9 @@ export class User {
   @Prop()
   token: string;
 
+  @Prop({ default: false })
+  active: boolean;
+
   id: Types.ObjectId;
   @Prop(
     raw({

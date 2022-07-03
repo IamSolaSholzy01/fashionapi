@@ -10,4 +10,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @ApiProperty({ required: false })
   verified?: boolean;
+
+  @ApiProperty({ required: false })
+  active?: boolean;
 }
