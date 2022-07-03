@@ -82,6 +82,41 @@ export class AuthService {
     }
   }
 
+  async registerSeller(object: RegisterDto): Promise<string> {
+    const { fullName, password } = object;
+    const email = cleanEmail(object.email);
+    try {
+      if (!validateEmail(email)) throw new Error('Email is invalid');
+      if (password.length < 6)
+        throw new Error('Password less than 6 characters');
+      const user = await this.usersService.createSeller({
+        email,
+        fullName,
+        password,
+      });
+
+      const token = gen();
+      if (await sendEmail(email, token)) {
+        const signed = this.jwtService.sign(
+          { token },
+          {
+            expiresIn: '5m',
+          },
+        );
+        await this.usersService
+          .update(user.id, { token: signed })
+          .catch((err) => {
+            throw new Error(err.message);
+          });
+      }
+
+      return `User ${user.id} created successfully. Check email for verification token.`;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async verify(object: TokenDto): Promise<string> {
     const plaintoken = object.token;
     const email = cleanEmail(object.email);

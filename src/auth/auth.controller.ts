@@ -40,6 +40,12 @@ export class AuthController {
   }
 
   @Public()
+  @Post('/register/seller')
+  async registerSeller(@Body() registerDto: RegisterDto) {
+    return this.authService.registerSeller(registerDto);
+  }
+
+  @Public()
   @Post('/verify')
   async verify(@Body() tokenDto: TokenDto) {
     return this.authService.verify(tokenDto);
