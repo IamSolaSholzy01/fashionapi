@@ -77,7 +77,12 @@ export class AuthService {
 
       return `User ${user.id} created successfully. Check email for verification token.`;
     } catch (error) {
-      console.log(error);
+      if (error.message.startsWith('E11000')) {
+        throw new HttpException(
+          'An account with this email already exists',
+          HttpStatus.CONFLICT,
+        );
+      }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -112,7 +117,12 @@ export class AuthService {
 
       return `User ${user.id} created successfully. Check email for verification token.`;
     } catch (error) {
-      console.log(error);
+      if (error.message.startsWith('E11000')) {
+        throw new HttpException(
+          'An account with this email already exists',
+          HttpStatus.CONFLICT,
+        );
+      }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
