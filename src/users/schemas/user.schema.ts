@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
-import { Document, Schema as M, Types } from 'mongoose';
+import mongoose, { Document, Schema as M, Types } from 'mongoose';
 
 export type UserDocument = User & Document;
 
@@ -22,6 +22,12 @@ export class User {
 
   @Prop({ default: false })
   active: boolean;
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+    required: false,
+  })
+  review: string[];
 
   id: Types.ObjectId;
   @Prop(

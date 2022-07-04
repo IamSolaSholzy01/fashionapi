@@ -61,6 +61,15 @@ export class UsersService {
     return await this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
 
+  async addReview(
+    id: mongoose.Types.ObjectId,
+    review: mongoose.Types.ObjectId,
+  ) {
+    return await this.userModel.findByIdAndUpdate(id, {
+      $push: { review: review },
+    });
+  }
+
   async countAdmins(): Promise<number> {
     return await this.userModel.countDocuments({
       roles: Role.Admin,
