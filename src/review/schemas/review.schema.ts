@@ -22,7 +22,7 @@ export class Review {
   rating: number;
 
   @Prop({ required: false })
-  description?: string;
+  comments?: string;
 
   @Prop({
     enum: [ProductReview.name, SellerReview.name],

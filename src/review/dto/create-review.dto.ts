@@ -5,7 +5,7 @@ export class CreateReviewDto {
   rating: number;
 
   @ApiProperty()
-  description?: string;
+  comments?: string;
 
   @ApiProperty()
   category?: string;
