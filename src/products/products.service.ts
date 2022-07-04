@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
+import { ReviewService } from 'src/review/review.service';
 import { Token } from '../auth/auth.interface';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -10,6 +11,7 @@ import { Product, ProductDocument } from './schemas/product.schema';
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    private reviewService: ReviewService,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -24,11 +26,16 @@ export class ProductsService {
   async findOne(id: mongoose.Types.ObjectId) {
     const product = await this.productModel.findById(id);
     const rating = product.rating;
-    return { ...product.toObject(), rating };
+    return product;
   }
 
   async findRating(id: mongoose.Types.ObjectId) {
-    return (await this.productModel.findById(id)).rating;
+    const reviews = await this.reviewService.findAllForProduct(id);
+
+    let sum = 0;
+    reviews.forEach(({ rating }) => (sum += rating));
+
+    return sum / reviews.length;
   }
 
   async update(

@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Condition } from 'mongoose';
 import { Token } from 'src/auth/auth.interface';
 import { ProductsService } from 'src/products/products.service';
+import { Product } from 'src/products/schemas/product.schema';
 import { UsersService } from 'src/users/users.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
+import { ProductReview } from './schemas/product-review.schema';
 import { Review, ReviewDocument } from './schemas/review.schema';
 
 @Injectable()
 export class ReviewService {
   constructor(
     @InjectModel(Review.name) private reviewModel: Model<ReviewDocument>,
+    @InjectModel(ProductReview.name)
+    private productReviewModel: Model<ProductReview>,
     private usersService: UsersService,
-    private productService: ProductsService,
   ) {}
 
   async create(createReviewDto: CreateReviewDto, user: Token): Promise<Review> {
@@ -21,12 +24,6 @@ export class ReviewService {
       user.id as unknown as mongoose.Types.ObjectId,
     );
     const { product, seller, ...reviewObj } = createReviewDto;
-    const productObj = await this.productService.findOne(
-      product as unknown as mongoose.Types.ObjectId,
-    );
-    const sellerObj = await this.usersService.findOne(
-      seller as unknown as mongoose.Types.ObjectId,
-    );
     const review = await this.reviewModel.create({
       ...reviewObj,
       product,
@@ -34,11 +31,20 @@ export class ReviewService {
       author,
     });
     await this.usersService.addReview(author.id, review.id);
+    console.log(review.product);
     return review;
   }
 
   async findAll() {
     return await this.reviewModel.find().exec();
+  }
+
+  async findAllForProduct(product: mongoose.Types.ObjectId) {
+    return await this.productReviewModel
+      .find({
+        product: new mongoose.Types.ObjectId(product),
+      })
+      .exec();
   }
 
   async findOne(id: mongoose.Types.ObjectId) {
