@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ColourModule } from './colour/colour.module';
 import { OrderModule } from './order/order.module';
 import { ComplaintModule } from './complaint/complaint.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ComplaintModule } from './complaint/complaint.module';
     ColourModule,
     OrderModule,
     ComplaintModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService],
