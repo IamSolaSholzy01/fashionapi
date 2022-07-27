@@ -11,8 +11,11 @@ import { ResendDto, TokenDto } from './dto/tokendto';
 import { Role } from 'src/enums/role.enum';
 
 const gen = () => {
-  var p = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const p = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   return [...Array(6)].reduce((a) => a + p[~~(Math.random() * p.length)], '');
+};
+const err = (message: string) => {
+  throw new Error(message);
 };
 
 @Injectable()
@@ -44,6 +47,9 @@ export class AuthService {
     const payload = { email: user.email, sub: user.id, roles: user.roles };
     return {
       access_token: this.jwtService.sign(payload),
+      user_id: payload.sub,
+      roles: payload.roles,
+      email: payload.email,
     };
   }
 
@@ -51,9 +57,8 @@ export class AuthService {
     const { fullName, password } = object;
     const email = cleanEmail(object.email);
     try {
-      if (!validateEmail(email)) throw new Error('Email is invalid');
-      if (password.length < 6)
-        throw new Error('Password less than 6 characters');
+      if (!validateEmail(email)) err('Email is invalid');
+      if (password.length < 6) err('Password is less than 6 characters');
       const user = await this.usersService.create({
         email,
         fullName,
@@ -91,9 +96,8 @@ export class AuthService {
     const { fullName, password } = object;
     const email = cleanEmail(object.email);
     try {
-      if (!validateEmail(email)) throw new Error('Email is invalid');
-      if (password.length < 6)
-        throw new Error('Password less than 6 characters');
+      if (!validateEmail(email)) err('Email is invalid');
+      if (password.length < 6) err('Password less than 6 characters');
       const user = await this.usersService.createSeller({
         email,
         fullName,
@@ -134,21 +138,20 @@ export class AuthService {
     try {
       const user = await this.usersService.findByEmail(email);
       if (!user) {
-        throw new Error('No user found with that email');
+        err('No user found with that email');
       }
       if (user.verified) {
-        throw new Error('User already verified');
+        err('User already verified');
       }
       const token = await this.jwtService.verify(user.token).token;
-      if (token !== cleanEmail(plaintoken)) throw new Error('Token is invalid');
+      if (token !== cleanEmail(plaintoken)) err('Token is invalid');
 
       await this.usersService.update(user.id, {
         verified: true,
-        active: user.roles.includes(Role.Seller) ? false : true,
+        active: !user.roles.includes(Role.Seller),
       });
       return 'Verified successfully';
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -158,13 +161,13 @@ export class AuthService {
     const new_email = cleanEmail(object.new_email);
 
     try {
-      if (!validateEmail(new_email)) throw new Error(`${new_email} is invalid`);
+      if (!validateEmail(new_email)) err(`${new_email} is invalid`);
       const user = await this.usersService.findByEmail(old_email);
       if (!user) {
-        throw new Error('No user found with that email');
+        err('No user found with that email');
       }
       if (user.verified) {
-        throw new Error('User already verified');
+        err('User already verified');
       }
       const token = gen();
       await this.usersService
