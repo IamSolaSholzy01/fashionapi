@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { verify } from 'argon2';
 import { User } from '../users/schemas/user.schema';
 import { UsersService } from 'src/users/users.service';
-import { Token } from './auth.interface';
+// import { Token } from './auth.interface';
 import { RegisterDto } from './dto/registerdto';
 import { cleanEmail, validateEmail } from 'src/shared/email';
 import { sendEmail } from '../shared/mail';
@@ -43,13 +43,15 @@ export class AuthService {
     return user;
   }
 
-  async login(user: Token) {
+  async login(user: User) {
     const payload = { email: user.email, sub: user.id, roles: user.roles };
     return {
       access_token: this.jwtService.sign(payload),
       user_id: payload.sub,
       roles: payload.roles,
       email: payload.email,
+      fullName: user.fullName,
+      name: user.name,
     };
   }
 

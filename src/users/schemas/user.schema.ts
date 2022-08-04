@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
-import mongoose, { Document, Schema as M, Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 export type UserDocument = User & Document;
 
@@ -37,6 +37,7 @@ export class User {
     }),
   )
   name: Record<string, any>;
+  fullName: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
