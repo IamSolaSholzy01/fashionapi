@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  Body,
+  // Body,
   Patch,
   Param,
   Delete,
@@ -11,8 +11,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
 import { ComplaintService } from './complaint.service';
-import { CreateComplaintDto } from './dto/create-complaint.dto';
-import { UpdateComplaintDto } from './dto/update-complaint.dto';
+// import { CreateComplaintDto } from './dto/create-complaint.dto';
+// import { UpdateComplaintDto } from './dto/update-complaint.dto';
 
 @ApiTags('complaints')
 @Controller('complaint')
@@ -21,8 +21,9 @@ export class ComplaintController {
 
   @ApiBearerAuth()
   @Post()
-  create(@Body() createComplaintDto: CreateComplaintDto) {
-    return this.complaintService.create(createComplaintDto);
+  // @Body() createComplaintDto: CreateComplaintDto
+  create() {
+    return this.complaintService.create();
   }
 
   @ApiBearerAuth()
@@ -41,11 +42,9 @@ export class ComplaintController {
 
   @ApiBearerAuth()
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateComplaintDto: UpdateComplaintDto,
-  ) {
-    return this.complaintService.update(+id, updateComplaintDto);
+  // @Body() updateComplaintDto: UpdateComplaintDto,
+  update(@Param('id') id: string) {
+    return this.complaintService.update(+id);
   }
 
   @ApiBearerAuth()

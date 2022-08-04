@@ -78,7 +78,7 @@ export class ProductsController {
       throw new HttpException('Invalid Object Id', HttpStatus.FORBIDDEN);
     return this.productsService.remove(
       id as unknown as mongoose.Types.ObjectId,
-      req.user,
+      // req.user,
     );
   }
 
