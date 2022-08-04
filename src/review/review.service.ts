@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, Condition } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Token } from 'src/auth/auth.interface';
-import { ProductsService } from 'src/products/products.service';
-import { Product } from 'src/products/schemas/product.schema';
+// import { ProductsService } from 'src/products/products.service';
+// import { Product } from 'src/products/schemas/product.schema';
 import { UsersService } from 'src/users/users.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -48,12 +48,11 @@ export class ReviewService {
   }
 
   async findAllForProduct(product: mongoose.Types.ObjectId) {
-    const reviews = await this.reviewModel
+    return await this.reviewModel
       .find({
         product: new mongoose.Types.ObjectId(product),
       })
       .exec();
-    return reviews;
   }
 
   async findOne(id: mongoose.Types.ObjectId) {

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateComplaintDto } from './dto/create-complaint.dto';
-import { UpdateComplaintDto } from './dto/update-complaint.dto';
+// import { CreateComplaintDto } from './dto/create-complaint.dto';
+// import { UpdateComplaintDto } from './dto/update-complaint.dto';
 
 @Injectable()
 export class ComplaintService {
-  create(createComplaintDto: CreateComplaintDto) {
+  // createComplaintDto: CreateComplaintDto
+  create() {
     return 'This action adds a new complaint';
   }
 
@@ -15,8 +16,8 @@ export class ComplaintService {
   findOne(id: number) {
     return `This action returns a #${id} complaint`;
   }
-
-  update(id: number, updateComplaintDto: UpdateComplaintDto) {
+  // updateComplaintDto: UpdateComplaintDto
+  update(id: number) {
     return `This action updates a #${id} complaint`;
   }
 

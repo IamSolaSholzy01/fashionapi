@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
-import mongoose, { Document, Schema as M, Types } from 'mongoose';
-import { Category } from 'src/enums/review.enum';
+import mongoose, { Document, Types } from 'mongoose';
+// import { Category } from 'src/enums/review.enum';
 import { User } from 'src/users/schemas/user.schema';
 import { ProductReview } from './product-review.schema';
 import { SellerReview } from './seller-review.schema';

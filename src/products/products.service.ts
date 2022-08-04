@@ -32,9 +32,8 @@ export class ProductsService {
   }
 
   async findOne(id: mongoose.Types.ObjectId) {
-    const product = await this.productModel.findById(id);
-    const rating = product.rating;
-    return product;
+    // const rating = product.rating;
+    return await this.productModel.findById(id);
   }
 
   async findRating(id: mongoose.Types.ObjectId) {
@@ -53,9 +52,10 @@ export class ProductsService {
     return await this.productModel.findByIdAndUpdate(id, updateProductDto);
   }
 
-  async remove(id: mongoose.Types.ObjectId, user: Token) {
+  async remove(id: mongoose.Types.ObjectId) {
     //Todo: Restrict product delete to admin or specific seller owner
-    return await this.productModel.findByIdAndDelete(id);
+    // , user: Token
+    return this.productModel.findByIdAndDelete(id);
   }
 
   async review(

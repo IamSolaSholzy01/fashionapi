@@ -12,7 +12,7 @@ import {
   SellerReview,
   SellerReviewSchema,
 } from './schemas/seller-review.schema';
-import { ProductsModule } from 'src/products/products.module';
+// import { ProductsModule } from 'src/products/products.module';
 
 @Module({
   imports: [
