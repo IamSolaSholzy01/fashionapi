@@ -38,6 +38,12 @@ export class ProductsController {
   }
 
   @Public()
+  @Get(':category')
+  findByCategory(@Param('category') category: string) {
+    return this.productsService.findByCategory(category);
+  }
+
+  @Public()
   @Get('rating/:id')
   findRating(@Param('id') id: string) {
     if (!mongoose.isValidObjectId(id))

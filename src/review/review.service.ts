@@ -44,7 +44,7 @@ export class ReviewService {
   }
 
   async findAll() {
-    return await this.reviewModel.find().exec();
+    return await this.reviewModel.find().populate('author', 'name').exec();
   }
 
   async findAllForProduct(product: mongoose.Types.ObjectId) {
@@ -60,10 +60,10 @@ export class ReviewService {
   }
 
   async update(id: mongoose.Types.ObjectId, updateReviewDto: UpdateReviewDto) {
-    return await this.reviewModel.findByIdAndUpdate(id, updateReviewDto);
+    return this.reviewModel.findByIdAndUpdate(id, updateReviewDto);
   }
 
   async remove(id: mongoose.Types.ObjectId) {
-    return await this.reviewModel.findByIdAndDelete(id);
+    return this.reviewModel.findByIdAndDelete(id);
   }
 }

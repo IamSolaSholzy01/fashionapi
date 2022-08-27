@@ -7,8 +7,8 @@ export class CreateProductDto {
   @ApiProperty()
   description: string;
 
-  @ApiProperty()
-  image: string;
+  @ApiProperty({ type: [String] })
+  image: string[];
 
   @ApiProperty()
   price: number;

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { ReviewService } from 'src/review/review.service';
@@ -17,10 +17,14 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto, user: Token) {
-    //Todo: Add user id as seller on model
     const seller = await this.userService.findOne(
       user.id as unknown as mongoose.Types.ObjectId,
     );
+    if (createProductDto.image.length > 5)
+      throw new HttpException(
+        'Maximum of 5 images allowed',
+        HttpStatus.FORBIDDEN,
+      );
     return await this.productModel.create({
       ...createProductDto,
       seller,
@@ -31,9 +35,17 @@ export class ProductsService {
     return await this.productModel.find().exec();
   }
 
+  async findByCategory(category: string) {
+    return await this.productModel
+      .find({
+        category,
+      })
+      .exec();
+  }
+
   async findOne(id: mongoose.Types.ObjectId) {
     // const rating = product.rating;
-    return await this.productModel.findById(id);
+    return this.productModel.findById(id);
   }
 
   async findRating(id: mongoose.Types.ObjectId) {
@@ -48,8 +60,14 @@ export class ProductsService {
     id: mongoose.Types.ObjectId,
     updateProductDto: UpdateProductDto,
   ) {
-    //Todo: Restrict product update to admin or spectific seller owner
-    return await this.productModel.findByIdAndUpdate(id, updateProductDto);
+    const product = await this.productModel.findById(id);
+    if (updateProductDto?.image?.length + product?.image?.length > 5)
+      throw new HttpException(
+        'Maximum of 5 images allowed',
+        HttpStatus.FORBIDDEN,
+      );
+    //Todo: Restrict product update to admin or specific seller owner
+    return this.productModel.findByIdAndUpdate(id, updateProductDto);
   }
 
   async remove(id: mongoose.Types.ObjectId) {

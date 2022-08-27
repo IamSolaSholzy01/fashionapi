@@ -29,7 +29,7 @@ export class Product {
   reviews: number[];
 
   @Prop()
-  image: string;
+  image: string[];
 
   id: Types.ObjectId;
   rating: number;
