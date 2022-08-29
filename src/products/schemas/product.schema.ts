@@ -31,6 +31,12 @@ export class Product {
   @Prop()
   image: string[];
 
+  @Prop({ default: false })
+  onDiscount: boolean;
+
+  @Prop({ default: 0 })
+  discount: number;
+
   id: Types.ObjectId;
   rating: number;
 

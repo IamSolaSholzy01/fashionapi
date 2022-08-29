@@ -54,6 +54,12 @@ export class ProductsController {
   }
 
   @Public()
+  @Get('discount')
+  findDiscount() {
+    return this.productsService.findDiscount();
+  }
+
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     if (!mongoose.isValidObjectId(id))

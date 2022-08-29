@@ -9,6 +9,10 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   }
   @ApiProperty({ type: [Number] })
   reviews?: number[];
+  @ApiProperty()
+  onDiscount?: boolean;
+  @ApiProperty()
+  discount?: number;
 }
 
 export class ReviewProductDto extends OmitType(CreateReviewDto, [

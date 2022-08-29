@@ -56,6 +56,12 @@ export class ProductsService {
     return sum / reviews.length;
   }
 
+  async findDiscount() {
+    return this.productModel.find({
+      onDiscount: true,
+    });
+  }
+
   async update(
     id: mongoose.Types.ObjectId,
     updateProductDto: UpdateProductDto,
