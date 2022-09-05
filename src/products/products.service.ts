@@ -62,6 +62,12 @@ export class ProductsService {
     });
   }
 
+  async findFeatured() {
+    return this.productModel.find({
+      featured: true,
+    });
+  }
+
   async update(
     id: mongoose.Types.ObjectId,
     updateProductDto: UpdateProductDto,

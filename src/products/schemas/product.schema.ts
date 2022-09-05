@@ -34,6 +34,9 @@ export class Product {
   @Prop({ default: false })
   onDiscount: boolean;
 
+  @Prop({ default: false })
+  featured: boolean;
+
   @Prop({ default: 0 })
   discount: number;
 

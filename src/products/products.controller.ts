@@ -60,6 +60,12 @@ export class ProductsController {
   }
 
   @Public()
+  @Get('featured')
+  findFeatured() {
+    return this.productsService.findFeatured();
+  }
+
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     if (!mongoose.isValidObjectId(id))
