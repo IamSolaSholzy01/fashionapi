@@ -30,7 +30,7 @@ export class AuthService {
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     if (
       !(await verify(
-        await (
+        (
           await this.usersService.getPassword(user.id)
         ).password,
         pass,
