@@ -67,20 +67,9 @@ export class AuthService {
         password,
       });
 
-      const token = gen();
-      if (await sendEmail(email, token)) {
-        const signed = this.jwtService.sign(
-          { token },
-          {
-            expiresIn: '5m',
-          },
-        );
-        await this.usersService
-          .update(user.id, { token: signed })
-          .catch((err) => {
-            throw new Error(err.message);
-          });
-      }
+      await this.processUser(user, email).catch((err) => {
+        throw new Error(err.message);
+      });
 
       return `User ${user.id} created successfully. Check email for verification token.`;
     } catch (error) {
@@ -91,6 +80,23 @@ export class AuthService {
         );
       }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async processUser(user: User, email: string) {
+    const token = gen();
+    if (await sendEmail(email, token)) {
+      const signed = this.jwtService.sign(
+        { token },
+        {
+          expiresIn: '5m',
+        },
+      );
+      await this.usersService
+        .update(user.id, { token: signed })
+        .catch((err) => {
+          throw new Error(err.message);
+        });
     }
   }
 
@@ -105,21 +111,9 @@ export class AuthService {
         fullName,
         password,
       });
-
-      const token = gen();
-      if (await sendEmail(email, token)) {
-        const signed = this.jwtService.sign(
-          { token },
-          {
-            expiresIn: '5m',
-          },
-        );
-        await this.usersService
-          .update(user.id, { token: signed })
-          .catch((err) => {
-            throw new Error(err.message);
-          });
-      }
+      await this.processUser(user, email).catch((err) => {
+        throw new Error(err.message);
+      });
 
       return `User ${user.id} created successfully. Check email for verification token.`;
     } catch (error) {
@@ -134,7 +128,7 @@ export class AuthService {
   }
 
   async verify(object: TokenDto): Promise<string> {
-    const plaintoken = object.token;
+    const plainToken = object.token;
     const email = cleanEmail(object.email);
 
     try {
@@ -146,7 +140,7 @@ export class AuthService {
         err('User already verified');
       }
       const token = await this.jwtService.verify(user.token).token;
-      if (token !== cleanEmail(plaintoken)) err('Token is invalid');
+      if (token !== cleanEmail(plainToken)) err('Token is invalid');
 
       await this.usersService.update(user.id, {
         verified: true,
