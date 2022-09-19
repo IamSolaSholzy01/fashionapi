@@ -16,3 +16,8 @@ export class CreateProductDto {
   @ApiProperty()
   category: string;
 }
+
+export class MultipleCreateProductDto {
+  @ApiProperty({ type: [CreateProductDto] })
+  products: CreateProductDto[];
+}

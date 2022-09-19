@@ -11,7 +11,10 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
+import {
+  CreateProductDto,
+  MultipleCreateProductDto,
+} from './dto/create-product.dto';
 import { ReviewProductDto, UpdateProductDto } from './dto/update-product.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from '../decorators/public.decorator';
@@ -31,10 +34,29 @@ export class ProductsController {
     return await this.productsService.create(createProductDto, req.user);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.Seller, Role.Admin)
+  @Post('/bulk/create')
+  async createBulk(
+    @Request() req,
+    @Body() createBulkProductDto: MultipleCreateProductDto,
+  ) {
+    return await this.productsService.createMultiple(
+      createBulkProductDto,
+      req.user,
+    );
+  }
+
   @Public()
   @Get()
   findAll() {
     return this.productsService.findAll();
+  }
+
+  @Public()
+  @Get('/categories')
+  findAllCategories() {
+    return this.productsService.findCategories();
   }
 
   @Public()

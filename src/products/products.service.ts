@@ -4,7 +4,10 @@ import mongoose, { Model } from 'mongoose';
 import { ReviewService } from 'src/review/review.service';
 import { UsersService } from 'src/users/users.service';
 import { Token } from '../auth/auth.interface';
-import { CreateProductDto } from './dto/create-product.dto';
+import {
+  CreateProductDto,
+  MultipleCreateProductDto,
+} from './dto/create-product.dto';
 import { ReviewProductDto, UpdateProductDto } from './dto/update-product.dto';
 import { Product, ProductDocument } from './schemas/product.schema';
 
@@ -25,14 +28,38 @@ export class ProductsService {
         'Maximum of 5 images allowed',
         HttpStatus.FORBIDDEN,
       );
-    return await this.productModel.create({
-      ...createProductDto,
-      seller,
-    });
+    return await this.productModel
+      .create({
+        ...createProductDto,
+        seller,
+      })
+      .catch((e) => {
+        throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+      });
+  }
+
+  async createMultiple(
+    createBulkProductDto: MultipleCreateProductDto,
+    user: Token,
+  ) {
+    const res = [];
+    for (const product of createBulkProductDto.products) {
+      await this.create(product, user).then((r) => res.push(r));
+    }
+    return res;
   }
 
   async findAll() {
     return await this.productModel.find().exec();
+  }
+
+  async findCategories() {
+    const product_categories = (
+      await this.productModel.find().select('category -_id').exec()
+    ).map(({ category }) => {
+      return category;
+    });
+    return [...new Set(product_categories)];
   }
 
   async findByCategory(category: string) {
