@@ -94,8 +94,8 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "16.x"
+    "node": "16"
   },
   "packageManager": "yarn@3.2.1",
-  "main": "dist/index.js"
+  "main": "dist/main.js"
 }
