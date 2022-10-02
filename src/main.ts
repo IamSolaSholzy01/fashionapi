@@ -6,9 +6,12 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import functions from 'firebase-functions';
+import express from 'express';
 
 declare const module: any;
 
+const expressServer = express();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api');
@@ -50,3 +53,10 @@ async function bootstrap() {
   }
 }
 bootstrap();
+
+export const api = functions
+  .region('europe-west1')
+
+  .https.onRequest(async (request, response) => {
+    expressServer(request, response);
+  });
