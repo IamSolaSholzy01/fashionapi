@@ -35,7 +35,13 @@ async function bootstrap() {
     customSiteTitle: 'Fashion App API Docs',
   };
   SwaggerModule.setup('docs', app, document, customOptions);
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:3001', /\.example2\.com$/],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  });
   await app.listen(process.env.PORT || 3000);
 
   if (module.hot) {
