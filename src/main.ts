@@ -55,7 +55,6 @@ export const createNestServer = async (expressInstance: express.Express) => {
   app.useStaticAssets(join(__dirname, '..', '/static'), {
     prefix: '/docs',
   });
-  //bootstrap
   app.enableCors({
     origin: ['http://localhost:3001', /\.example2\.com$/],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
