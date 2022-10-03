@@ -50,6 +50,6 @@ async function bootstrap() {
   }
   await app.init();
 }
-bootstrap();
+// bootstrap();
 
 export default bootstrap;
