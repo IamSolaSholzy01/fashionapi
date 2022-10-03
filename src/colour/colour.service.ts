@@ -20,7 +20,7 @@ export class ColourService {
   }
 
   async findOne(id: mongoose.Types.ObjectId) {
-    return await this.colourModel.findById(id);
+    return this.colourModel.findById(id);
   }
 
   async update(id: mongoose.Types.ObjectId, updateColourDto: UpdateColourDto) {
