@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "fashion-now",
+  "outDir": "dist",
   "routes": [
     {
       "src": "/(.*)",
