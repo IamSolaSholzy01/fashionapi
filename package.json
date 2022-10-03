@@ -9,6 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
     "start:dev": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -17,12 +18,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "serve": "yarn run build && firebase emulators:start --only functions",
-    "shell": "yarn run build && firebase functions:shell",
-    "start": "yarn run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -36,8 +32,6 @@
     "argon2": "^0.28.5",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
-    "firebase-admin": "^10.2.0",
-    "firebase-functions": "^3.21.0",
     "mongoose": "^6.4.0",
     "nodemailer": "^6.7.5",
     "passport": "^0.6.0",
@@ -94,8 +88,7 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "16"
+    "node": "16.x"
   },
-  "packageManager": "yarn@3.2.1",
-  "main": "dist/main.js"
+  "packageManager": "yarn@3.2.2"
 }

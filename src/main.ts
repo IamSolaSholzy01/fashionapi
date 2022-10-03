@@ -6,20 +6,11 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import * as functions from 'firebase-functions';
-import * as express from 'express';
-import { ExpressAdapter } from '@nestjs/platform-express';
 
 declare const module: any;
 
-const server = express();
-// async function bootstrap() {
-//
-// }
-// bootstrap();
-export const createNestServer = async (expressInstance: express.Express) => {
-  const adapter = new ExpressAdapter(expressInstance);
-  const app = await NestFactory.create(AppModule, adapter, {});
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api');
   app.enableVersioning({
     type: VersioningType.URI,
@@ -57,11 +48,5 @@ export const createNestServer = async (expressInstance: express.Express) => {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
-  return app.init();
-};
-
-createNestServer(server)
-  .then(() => console.log('Nest Ready'))
-  .catch((err) => console.error('Nest broken', err));
-
-export const api: functions.HttpsFunction = functions.https.onRequest(server);
+}
+bootstrap();
