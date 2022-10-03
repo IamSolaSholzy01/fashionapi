@@ -1,12 +1,6 @@
 {
   "version": 2,
   "name": "fashion-now",
-//  "builds": [
-//    {
-//      "src": "dist/main.js",
-//      "use": "@now/node"
-//    }
-//  ],
   "routes": [
     {
       "src": "/(.*)",
