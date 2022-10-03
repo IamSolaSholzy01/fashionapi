@@ -43,6 +43,5 @@ async function bootstrap() {
     }
     await app.init();
 }
-bootstrap();
 exports.default = bootstrap;
 //# sourceMappingURL=main.js.map
