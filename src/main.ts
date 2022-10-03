@@ -8,11 +8,7 @@ import {
 import { AppModule } from './app.module';
 import * as functions from 'firebase-functions';
 import * as express from 'express';
-import {
-  ExpressAdapter,
-  NestExpressApplication,
-} from '@nestjs/platform-express';
-import { join } from 'path';
+import { ExpressAdapter } from '@nestjs/platform-express';
 
 declare const module: any;
 
@@ -23,11 +19,7 @@ const server = express();
 // bootstrap();
 export const createNestServer = async (expressInstance: express.Express) => {
   const adapter = new ExpressAdapter(expressInstance);
-  const app: NestExpressApplication = await NestFactory.create(
-    AppModule,
-    adapter,
-    {},
-  );
+  const app = await NestFactory.create(AppModule, adapter, {});
   app.setGlobalPrefix('/api');
   app.enableVersioning({
     type: VersioningType.URI,
@@ -52,9 +44,6 @@ export const createNestServer = async (expressInstance: express.Express) => {
     customSiteTitle: 'Fashion App API Docs',
   };
   SwaggerModule.setup('docs', app, document, customOptions);
-  app.useStaticAssets(join(__dirname, '..', '/static'), {
-    prefix: '/docs',
-  });
   app.enableCors({
     origin: ['http://localhost:3001', /\.example2\.com$/],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

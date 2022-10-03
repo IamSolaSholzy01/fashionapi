@@ -171,7 +171,6 @@ const app_module_1 = __webpack_require__(7);
 const functions = __webpack_require__(69);
 const express = __webpack_require__(70);
 const platform_express_1 = __webpack_require__(71);
-const path_1 = __webpack_require__(73);
 const server = express();
 const createNestServer = async (expressInstance) => {
     const adapter = new platform_express_1.ExpressAdapter(expressInstance);
@@ -199,9 +198,6 @@ const createNestServer = async (expressInstance) => {
         customSiteTitle: 'Fashion App API Docs',
     };
     swagger_1.SwaggerModule.setup('docs', app, document, customOptions);
-    app.useStaticAssets((0, path_1.join)(__dirname, '..', '/static'), {
-        prefix: '/docs',
-    });
     app.enableCors({
         origin: ['http://localhost:3001', /\.example2\.com$/],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -4193,14 +4189,6 @@ module.exports = require("express");
 "use strict";
 module.exports = require("@nestjs/platform-express");
 
-/***/ }),
-/* 72 */,
-/* 73 */
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("path");
-
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -4263,7 +4251,7 @@ module.exports = require("path");
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("1eff50bb0a96ec3dc95b")
+/******/ 		__webpack_require__.h = () => ("4bf4da03c1328bd0de24")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */

@@ -36,7 +36,6 @@
     "argon2": "^0.28.5",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
-    "fastify-swagger": "^5.2.0",
     "firebase-admin": "^10.2.0",
     "firebase-functions": "^3.21.0",
     "mongoose": "^6.4.0",
