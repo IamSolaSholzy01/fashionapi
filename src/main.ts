@@ -41,7 +41,7 @@ async function bootstrap() {
     customSiteTitle: 'Fashion App API Docs',
   };
   SwaggerModule.setup('docs', app, document, customOptions);
-  app.useStaticAssets(join(__dirname, '..', 'static'), {
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: 'docs',
   });
   app.enableCors({
