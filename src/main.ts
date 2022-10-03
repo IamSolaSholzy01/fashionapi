@@ -1,5 +1,5 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestApplication, NestFactory } from '@nestjs/core';
 import {
   DocumentBuilder,
   SwaggerCustomOptions,
@@ -9,13 +9,14 @@ import { AppModule } from './app.module';
 import * as express from 'express';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as functions from 'firebase-functions';
+import { join } from 'path';
 
 declare const module: any;
 
 const expressServer = express();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app: NestApplication = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api');
   app.enableVersioning({
     type: VersioningType.URI,
@@ -40,6 +41,9 @@ async function bootstrap() {
     customSiteTitle: 'Fashion App API Docs',
   };
   SwaggerModule.setup('docs', app, document, customOptions);
+  app.useStaticAssets(join(__dirname, '..', 'static'), {
+    prefix: 'docs',
+  });
   app.enableCors({
     origin: ['http://localhost:3001', /\.example2\.com$/],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

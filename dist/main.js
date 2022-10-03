@@ -8,6 +8,7 @@ const app_module_1 = require("./app.module");
 const express = require("express");
 const platform_express_1 = require("@nestjs/platform-express");
 const functions = require("firebase-functions");
+const path_1 = require("path");
 const expressServer = express();
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
@@ -34,6 +35,9 @@ async function bootstrap() {
         customSiteTitle: 'Fashion App API Docs',
     };
     swagger_1.SwaggerModule.setup('docs', app, document, customOptions);
+    app.useStaticAssets((0, path_1.join)(__dirname, '..', 'static'), {
+        prefix: 'docs',
+    });
     app.enableCors({
         origin: ['http://localhost:3001', /\.example2\.com$/],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
