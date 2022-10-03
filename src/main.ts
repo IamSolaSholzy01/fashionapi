@@ -52,7 +52,7 @@ export const createNestServer = async (expressInstance: express.Express) => {
     customSiteTitle: 'Fashion App API Docs',
   };
   SwaggerModule.setup('docs', app, document, customOptions);
-  app.useStaticAssets(join(__dirname, '/static'), {
+  app.useStaticAssets(join(__dirname, '..', '/static'), {
     prefix: '/docs',
   });
   app.enableCors({
