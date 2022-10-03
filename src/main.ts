@@ -49,4 +49,4 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 }
-bootstrap();
+bootstrap().then(() => console.log('Started'));
