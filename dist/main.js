@@ -41,6 +41,7 @@ async function bootstrap() {
         module.hot.accept();
         module.hot.dispose(() => app.close());
     }
+    await app.init();
 }
 bootstrap();
 exports.default = bootstrap;
