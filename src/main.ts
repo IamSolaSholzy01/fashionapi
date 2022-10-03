@@ -50,3 +50,5 @@ async function bootstrap() {
   }
 }
 bootstrap();
+
+export default bootstrap;
