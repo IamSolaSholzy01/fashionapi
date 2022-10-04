@@ -10,8 +10,6 @@ import { ColourModule } from './colour/colour.module';
 import { OrderModule } from './order/order.module';
 import { ComplaintModule } from './complaint/complaint.module';
 import { ReviewModule } from './review/review.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 
 @Module({
   imports: [
@@ -29,10 +27,6 @@ import { join } from 'path';
     OrderModule,
     ComplaintModule,
     ReviewModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/api*'],
-    }),
   ],
   controllers: [AppController],
   providers: [AppService],
