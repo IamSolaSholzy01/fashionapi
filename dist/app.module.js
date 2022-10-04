@@ -19,8 +19,6 @@ const colour_module_1 = require("./colour/colour.module");
 const order_module_1 = require("./order/order.module");
 const complaint_module_1 = require("./complaint/complaint.module");
 const review_module_1 = require("./review/review.module");
-const serve_static_1 = require("@nestjs/serve-static");
-const path_1 = require("path");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -40,10 +38,6 @@ AppModule = __decorate([
             order_module_1.OrderModule,
             complaint_module_1.ComplaintModule,
             review_module_1.ReviewModule,
-            serve_static_1.ServeStaticModule.forRoot({
-                rootPath: (0, path_1.join)(__dirname, '..', 'public'),
-                exclude: ['/api*'],
-            }),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
