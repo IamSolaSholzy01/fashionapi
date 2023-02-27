@@ -1,15 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.api = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
-const express = require("express");
-const platform_express_1 = require("@nestjs/platform-express");
-const functions = require("firebase-functions");
 const path_1 = require("path");
-const expressServer = express();
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.setGlobalPrefix('/api');
@@ -51,13 +46,5 @@ async function bootstrap() {
         module.hot.dispose(() => app.close());
     }
 }
-bootstrap();
-const createFunction = async (expressInstance) => {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(expressInstance));
-    await app.init();
-};
-exports.api = functions.https.onRequest(async (request, response) => {
-    await createFunction(expressServer);
-    expressServer(request, response);
-});
+exports.default = bootstrap;
 //# sourceMappingURL=main.js.map

@@ -1,2 +1,2 @@
-import * as functions from 'firebase-functions';
-export declare const api: functions.HttpsFunction;
+declare function bootstrap(): Promise<void>;
+export default bootstrap;
