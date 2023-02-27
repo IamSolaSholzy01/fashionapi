@@ -6,14 +6,11 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import * as express from 'express';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import * as functions from 'firebase-functions';
 import { join } from 'path';
 
 declare const module: any;
 
-const expressServer = express();
+// const expressServer = express();
 
 async function bootstrap() {
   const app: NestApplication = await NestFactory.create(AppModule);
@@ -58,18 +55,18 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 }
-bootstrap();
+// bootstrap();
 
-const createFunction = async (expressInstance): Promise<void> => {
-  const app = await NestFactory.create(
-    AppModule,
-    new ExpressAdapter(expressInstance),
-  );
-  await app.init();
-};
-export const api = functions.https.onRequest(async (request, response) => {
-  await createFunction(expressServer);
-  expressServer(request, response);
-});
+// const createFunction = async (expressInstance): Promise<void> => {
+//   const app = await NestFactory.create(
+//     AppModule,
+//     new ExpressAdapter(expressInstance),
+//   );
+//   await app.init();
+// };
+// export const api = functions.https.onRequest(async (request, response) => {
+//   await createFunction(expressServer);
+//   expressServer(request, response);
+// });
 
-// export default bootstrap;
+export default bootstrap;
